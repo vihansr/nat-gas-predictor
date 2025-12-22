@@ -3,7 +3,7 @@ import pandas as pd
 from ta import add_all_ta_features
 from ta.utils import dropna
 from twilio.rest import Client
-from ng_signal import data, strat
+
 from datetime import datetime
 import os
 import dotenv
@@ -16,9 +16,9 @@ def data(tick, period="60d", invl="15m"):
   cols = ['Open', 'High', 'Low', 'Close', 'volatility_bbm', 'volatility_bbh', 'volatility_bbl', 'volume_vwap', 'momentum_rsi', 'ema_100']
 
   ticker = yf.Ticker(tick)
-  data = ticker.history(period=period, interval=invl)
+  hist = ticker.history(period=period, interval=invl)
 
-  df = pd.DataFrame(data)
+  df = pd.DataFrame(hist)
   df = add_all_ta_features(
       df, open="Open", high="High", low="Low", close="Close", volume="Volume"
   )
