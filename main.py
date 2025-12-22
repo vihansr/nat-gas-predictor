@@ -137,6 +137,3 @@ def generate_commentary():
     except Exception as e:
         return f"Error in generate_commentary: {e}"
 
-# if __name__ == "__main__":
-#     data = generate_commentary()
-#     print(data)

@@ -2,17 +2,13 @@ name: Signal Check
 
 on:
   schedule:
-    # 9:00 AM IST to 11:50 PM IST every 5 minutes
-    # 9:00 AM IST = 3:30 AM UTC
-    # 11:50 PM IST = 18:20 UTC
-    - cron: "30-55/5 3 * * *"
-    - cron: "*/5 4-17 * * *"
-    - cron: "0-20/5 18 * * *"
+    - cron: "*/5 * * * *"   # Every 5 minutes, continuously (UTC)
   workflow_dispatch:
 
 jobs:
   check-signal:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,4 +30,4 @@ jobs:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
-        run: python mail.py
+        run: python ng_signals.py
