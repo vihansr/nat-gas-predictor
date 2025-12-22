@@ -36,11 +36,11 @@ def strat(df):
   vwap, ema = df['volume_vwap'], df['ema_100']
   rsi = df['momentum_rsi']
 
-  df['buy_condition_1'] = (c > bbl) & (l <= bbl) & (c < vwap) & (c < ema) & (rsi < 50)
-  df['sell_condition_1'] = (c < bbl) & (l >= bbl) & (c > vwap) & (c > ema) & (rsi > 50)
+  df['buy_condition_1'] = (c > bbl) & (l <= bbl) & (c <= vwap) & (c > ema) & (rsi < 50)
+  df['sell_condition_1'] = (c < bbh) & (h >= bbh) & (c >= vwap) & (c < ema) & (rsi > 50)
 
-  df['buy_condition_0.5'] = (c > bbm) & (l <= bbm) & (c < vwap) & (rsi < 50)
-  df['sell_condition_0.5'] = (c < bbm) & (l >= bbm) & (c > vwap) & (rsi > 50)
+  df['buy_condition_0.5'] = (c > bbm) & (l <= bbm) & (c <= vwap) & (rsi < 55) & (c > ema)
+  df['sell_condition_0.5'] = (c < bbm) & (h >= bbm) & (c >= vwap) & (rsi > 55) & (c < ema)
 
   signal = {
       'buy_1': bool(df['buy_condition_1']),
