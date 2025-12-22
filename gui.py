@@ -12,7 +12,7 @@ class NatGasGUI(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        self.title("Natural Gas Predictor Dashboard")
+        self.title("Natural Gas Monitor")
         self.geometry("800x600")  # Reduced size as requested
 
         # Set appearance
@@ -42,7 +42,7 @@ class NatGasGUI(ctk.CTk):
         self.sidebar_frame.grid(row=0, column=0, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(5, weight=1)
 
-        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="NG Predictor", font=ctk.CTkFont(size=18, weight="bold"))
+        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="NG Monitor", font=ctk.CTkFont(size=18, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=10, pady=(20, 10))
 
         self.storage_button = ctk.CTkButton(self.sidebar_frame, text="EIA Storage", command=lambda: self.select_frame("storage"))
