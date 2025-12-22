@@ -1,0 +1,13 @@
+requests
+selenium
+pandas
+html5lib
+webdriver-manager
+opencv-python
+numpy
+yfinance
+ta
+twilio
+python-dotenv
+google-genai
+Pillow
