@@ -5,45 +5,28 @@ def evaluate_ng_storage_model(storage: dict, regime: str = "neutral") -> dict:
     Deviation-based natural gas price reaction model
     """
 
-    # -------------------------
-    # Extract values
-    # -------------------------
-    actual = storage["net_change"]          # Bcf
-    expected = storage["exp_change"]        # Bcf
+    actual = storage["net_change"]          
+    expected = storage["exp_change"]        
 
     current = storage["current"]
     yr_ago = storage["yr_ago"]
     five_yr = storage["5_yr_avg"]
 
-    # -------------------------
-    # Deviations
-    # -------------------------
-    weekly_deviation = actual - expected     # negative = bullish
+    weekly_deviation = actual - expected  
 
     yoy_tightness = (current - yr_ago) / yr_ago if yr_ago != 0 else 0
     five_year_cushion = (current - five_yr) / five_yr if five_yr != 0 else 0
 
-    # -------------------------
-    # Model parameters (Refined for realism)
-    # -------------------------
-    alpha = 0.0025   # 0.25% per 10 Bcf surprise
-    beta = 0.50      # YoY amplification (was 6.0, which was too high)
-    gamma = 0.30     # Structural cushion penalty (was 4.0)
+    alpha = 0.0025   
+    beta = 0.50      
+    gamma = 0.30     
 
-    # -------------------------
-    # Core price reaction
-    # -------------------------
-    # Sign Fix: Positive deviation (actual > expected) is BEARISH (negative price move)
-    # Sign Fix: Positive YoY/Cushion (more storage than last yr/avg) is BEARISH
     price_change = (
         -alpha * (weekly_deviation / 10)
         - beta * yoy_tightness
         - gamma * five_year_cushion
     )
 
-    # -------------------------
-    # Regime filter
-    # -------------------------
     regime_multiplier = {
         "cold": 1.5,
         "neutral": 1.0,
@@ -52,14 +35,7 @@ def evaluate_ng_storage_model(storage: dict, regime: str = "neutral") -> dict:
 
     adjusted_price_change = price_change * regime_multiplier
 
-    # -------------------------
-    # Signal strength
-    # -------------------------
     signal_strength = abs(weekly_deviation) * (1 + abs(yoy_tightness)) / (1 + five_year_cushion)
-
-    # -------------------------
-    # Trade bias
-    # -------------------------
     if adjusted_price_change > 0.02:
         bias = "Strong Bullish"
     elif adjusted_price_change > 0.005:
@@ -71,9 +47,6 @@ def evaluate_ng_storage_model(storage: dict, regime: str = "neutral") -> dict:
     else:
         bias = "Neutral"
 
-    # -------------------------
-    # Output
-    # -------------------------
     return {
         "actual_change_bcf": actual,
         "expected_change_bcf": expected,

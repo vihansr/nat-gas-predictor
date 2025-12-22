@@ -8,10 +8,8 @@ from selenium.webdriver.common.by import By
 import time
 
 def get_forecast():
-    # URL of the natural gas storage page
     url = "https://www.investing.com/economic-calendar/natural-gas-storage-386"
 
-    # Standard headers to mimic a real browser
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
@@ -42,8 +40,6 @@ def get_forecast():
         if not rows:
             raise ValueError("No data rows found in the table.")
 
-        # Extract values more safely (Forecast is usually the 4th column)
-        # We assume rows[0] is the latest release
         def parse_val(val):
             try:
                 return float(val.replace('B', '').replace('K', '').strip())
@@ -99,14 +95,9 @@ def get_storage_data():
                             pass
             return 0.0
 
-        # EIA wngsr.txt is tricky. Usually:
-        # Line 1: Total Storage ...
-        # Line 2: Week Ago ...
-        # etc.
-        # But indices can shift. Let's try to find by label if possible, or stick to known order if label fails.
         storage = {
             "current": find_val_in_line("Total (", 1), 
-            "week_ago": find_val_in_line("Total (", 2), # This is tricky as both use "Total"
+            "week_ago": find_val_in_line("Total (", 2),
             "net_change": find_val_in_line("Net Change", 3),
             "imp_flow": find_val_in_line("Implied Flow", 4),
             "yr_ago": find_val_in_line("Year ago stocks", 5),
@@ -116,9 +107,6 @@ def get_storage_data():
             "exp_change": get_forecast()["prev"]
         }
         
-        # Special logic for current vs week_ago since they both share "Total"
-        # The first "Total" line is usually the current week
-        # The second "Total" line is the previous week
         total_lines = [i for i, line in enumerate(lines) if "total (" in line.lower()]
         if len(total_lines) >= 2:
             storage["current"] = find_val_in_line("Total (", total_lines[0]+1)

@@ -11,7 +11,6 @@ from dev import evaluate_ng_storage_model
 
 dotenv.load_dotenv()
 
-# ... (keeping sys_ins and text same as before)
 sys_ins = """
 You are an expert U.S. natural gas market analyst and energy strategist.
 
@@ -116,7 +115,6 @@ def generate_commentary():
         ]
 
         client = genai.Client()
-        # Reverting to gemini-2.0-flash which was previously found
         model_name = "gemini-2.5-flash" 
 
         response = client.models.generate_content(
