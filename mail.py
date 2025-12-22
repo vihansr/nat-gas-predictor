@@ -8,6 +8,8 @@ from saveimg import get_weather_count
 
 dotenv.load_dotenv()
 
+
+
 def create_html_table(metrics, weather_7d):
     """
     Creates a minimalistic HTML table for the market metrics.
@@ -126,6 +128,8 @@ def msg():
     from ng_signal import data, strat
     from datetime import datetime
 
+    sid, token = os.getenv("TWILIO_ACCOUNT_SID"), os.getenv("TWILIO_AUTH_TOKEN")
+
     print("Checking technical signals for Natural Gas...")
     try:
         # Get latest signal
@@ -144,9 +148,7 @@ def msg():
 
         print(f"Signal detected: {active_signal}. Sending WhatsApp notification...")
 
-        account_sid = 'AC4810fd0842d6d26f580968ab6cf29899'
-        auth_token = '4fd11714072863a9ea1f4c8536b61176'
-        client = Client(account_sid, auth_token)
+        client = Client(sid, token)
 
         # Get current time for the message
         now = datetime.now().strftime("%H:%M")
