@@ -62,8 +62,3 @@ The architecture is modular, automation-friendly, and suitable for **24/7 deploy
 - **Automation:**
   - GitHub Actions / Cron
   - PythonAnywhere / Cloud VM compatible
-
----
-
-## Project Structure
-
