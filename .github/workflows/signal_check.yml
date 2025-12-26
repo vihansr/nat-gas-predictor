@@ -2,7 +2,7 @@ name: Signal Check
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # Every 5 minutes, continuously (UTC)
+    - cron: "*/15 * * * *"   # Every 15 minutes, continuously (UTC)
   workflow_dispatch:
 
 jobs:

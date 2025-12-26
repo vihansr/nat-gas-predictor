@@ -9,8 +9,6 @@ from saveimg import get_weather_count
 dotenv.load_dotenv()
 
 
-
-
 def send_report_email():
     """
     Generates the natural gas report and sends it via email with an HTML table.
