@@ -1,8 +1,6 @@
 import yfinance as yf
 import pandas as pd
 from ta import add_all_ta_features
-from ta.utils import dropna
-from twilio.rest import Client
 
 from datetime import datetime
 import os
